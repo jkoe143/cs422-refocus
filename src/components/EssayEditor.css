@@ -1,0 +1,134 @@
+.essay-editor {
+  height: 100%;
+  padding: 32px 40px;
+  background-color: #121212;
+  display: flex;
+  flex-direction: column;
+}
+
+.essay-editor__shell {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.essay-editor__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  border: 1px solid #333;
+  border-radius: 12px;
+  background-color: #1e1e1e;
+}
+
+.essay-editor__meta-label {
+  color: #888;
+  font-size: 13px;
+}
+
+.essay-editor__meta-count {
+  color: #555;
+  font-size: 12px;
+}
+
+.essay-editor__card {
+  border: 1px solid #333;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #1e1e1e;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+}
+
+.essay-editor__toolbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 24px;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.essay-editor__format {
+  width: 28px;
+  height: 28px;
+  border: 1px solid #444;
+  border-radius: 4px;
+  background-color: transparent;
+  color: #888;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.essay-editor__format--bold {
+  font-weight: bold;
+}
+
+.essay-editor__format--italic {
+  font-style: italic;
+}
+
+.essay-editor__format--underline {
+  text-decoration: underline;
+}
+
+.essay-editor__divider {
+  width: 1px;
+  height: 20px;
+  background-color: #333;
+}
+
+.essay-editor__select {
+  padding: 4px 8px;
+  border: 1px solid #444;
+  border-radius: 4px;
+  background-color: #2a2a2a;
+  color: #888;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.essay-editor__title {
+  width: 100%;
+  padding: 20px 24px;
+  border: none;
+  border-bottom: 1px solid #2a2a2a;
+  background-color: transparent;
+  color: #fff;
+  font-family: inherit;
+  font-size: 22px;
+  font-weight: bold;
+  outline: none;
+}
+
+.essay-editor__body {
+  width: 100%;
+  min-height: 400px;
+  padding: 20px 24px;
+  border: none;
+  background-color: transparent;
+  color: #ccc;
+  font-family: Georgia, serif;
+  font-size: 15px;
+  line-height: 1.8;
+  outline: none;
+  resize: none;
+}
+
+.essay-editor__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.essay-editor__save {
+  padding: 8px 20px;
+  border: 1px solid #444;
+  border-radius: 8px;
+  background-color: #2a2a2a;
+  color: #888;
+  cursor: pointer;
+  font-size: 13px;
+}
