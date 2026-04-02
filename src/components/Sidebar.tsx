@@ -4,10 +4,21 @@ interface SidebarProps {
   currentTask: string;
   deadline: string;
   appState: string;
+  remainingSeconds: number;
 }
 
-function Sidebar({ currentTask, deadline, appState }: SidebarProps) {
+function Sidebar({
+  currentTask,
+  deadline,
+  appState,
+  remainingSeconds,
+}: SidebarProps) {
   const isRunning = appState === "focus";
+
+  const minutes = Math.floor(remainingSeconds / 60)
+    .toString()
+    .padStart(2, "0");
+  const seconds = (remainingSeconds % 60).toString().padStart(2, "0");
 
   return (
     <div className="sidebar">
@@ -26,7 +37,7 @@ function Sidebar({ currentTask, deadline, appState }: SidebarProps) {
         <div
           className={`sidebar__timer ${isRunning ? "sidebar__timer--running" : ""}`}
         >
-          25:00
+          {minutes}:{seconds}
         </div>
         {isRunning && <div className="sidebar__running">● RUNNING</div>}
       </div>

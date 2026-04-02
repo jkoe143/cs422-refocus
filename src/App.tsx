@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Sidebar from "./components/Sidebar";
 import NudgePanel from "./components/NudgePanel";
 import DistractionAlert from "./components/DistractionAlert";
@@ -20,8 +20,31 @@ type AppState =
   | "submitted";
 
 function App() {
+  const FOCUS_DURATION_SECONDS = 25 * 60;
   const [appState, setAppState] = useState<AppState>("idle");
   const [activeTab, setActiveTab] = useState<"essay" | "youtube">("youtube");
+  const [focusSeconds, setFocusSeconds] = useState(FOCUS_DURATION_SECONDS);
+  const previousAppStateRef = useRef<AppState>("idle");
+
+  useEffect(() => {
+    if (appState === "focus" && previousAppStateRef.current !== "focus") {
+      setFocusSeconds(FOCUS_DURATION_SECONDS);
+    }
+
+    previousAppStateRef.current = appState;
+  }, [appState]);
+
+  useEffect(() => {
+    if (appState !== "focus") {
+      return;
+    }
+
+    const interval = window.setInterval(() => {
+      setFocusSeconds((prev) => Math.max(prev - 1, 0));
+    }, 1000);
+
+    return () => window.clearInterval(interval);
+  }, [appState]);
 
   useEffect(() => {
     if (appState === "idle") {
@@ -88,7 +111,10 @@ function App() {
         )}
 
         {appState === "focus" && (
-          <FocusMode onSubmit={() => setAppState("submitted")} />
+          <FocusMode
+            onSubmit={() => setAppState("submitted")}
+            remainingSeconds={focusSeconds}
+          />
         )}
 
         <div className="app-shell__workspace">
@@ -122,6 +148,7 @@ function App() {
           currentTask="English Essay"
           deadline="11:00 PM"
           appState={appState}
+          remainingSeconds={focusSeconds}
         />
       </div>
     </div>
