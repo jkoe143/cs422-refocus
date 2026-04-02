@@ -24,6 +24,7 @@ function App() {
   const [appState, setAppState] = useState<AppState>("idle");
   const [activeTab, setActiveTab] = useState<"essay" | "youtube">("youtube");
   const [focusSeconds, setFocusSeconds] = useState(FOCUS_DURATION_SECONDS);
+  const usedFocusSeconds = Math.max(FOCUS_DURATION_SECONDS - focusSeconds, 0);
 
   useEffect(() => {
     if (appState !== "focus") {
@@ -145,6 +146,7 @@ function App() {
           deadline="11:00 PM"
           appState={appState}
           remainingSeconds={focusSeconds}
+          usedSeconds={usedFocusSeconds}
         />
       </div>
     </div>
