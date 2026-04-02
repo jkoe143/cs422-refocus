@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Sidebar from "./components/Sidebar";
 import NudgePanel from "./components/NudgePanel";
 import DistractionAlert from "./components/DistractionAlert";
@@ -7,6 +7,8 @@ import FocusMode from "./components/FocusMode";
 import FakeYouTube from "./components/FakeYouTube";
 import EssayEditor from "./components/EssayEditor";
 import TabBar from "./components/TabBar";
+
+import "./App.css";
 
 type AppState =
   | "idle"
@@ -18,8 +20,31 @@ type AppState =
   | "submitted";
 
 function App() {
+  const FOCUS_DURATION_SECONDS = 25 * 60;
   const [appState, setAppState] = useState<AppState>("idle");
   const [activeTab, setActiveTab] = useState<"essay" | "youtube">("youtube");
+  const [focusSeconds, setFocusSeconds] = useState(FOCUS_DURATION_SECONDS);
+  const previousAppStateRef = useRef<AppState>("idle");
+
+  useEffect(() => {
+    if (appState === "focus" && previousAppStateRef.current !== "focus") {
+      setFocusSeconds(FOCUS_DURATION_SECONDS);
+    }
+
+    previousAppStateRef.current = appState;
+  }, [appState]);
+
+  useEffect(() => {
+    if (appState !== "focus") {
+      return;
+    }
+
+    const interval = window.setInterval(() => {
+      setFocusSeconds((prev) => Math.max(prev - 1, 0));
+    }, 1000);
+
+    return () => window.clearInterval(interval);
+  }, [appState]);
 
   useEffect(() => {
     if (appState === "idle") {
@@ -29,12 +54,6 @@ function App() {
       return () => clearTimeout(timer);
     }
   }, [appState]);
-
-  const getBorderStyle = () => {
-    if (appState === "distraction") return "3px solid #ef5350";
-    if (appState === "focus") return "3px solid #4caf50";
-    return "3px solid transparent";
-  };
 
   const handleLetsStart = () => {
     setAppState("focus");
@@ -60,19 +79,19 @@ function App() {
     setActiveTab(tab);
   };
 
+  const appShellClassName = [
+    "app-shell",
+    appState === "distraction" ? "app-shell--distraction" : "",
+    appState === "focus" ? "app-shell--focus" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        minHeight: "100vh",
-        outline: getBorderStyle(),
-        transition: "outline 0.3s ease",
-      }}
-    >
+    <div className={appShellClassName}>
       <TabBar activeTab={activeTab} onTabChange={handleTabChange} />
 
-      <div style={{ display: "flex", flex: 1 }}>
+      <div className="app-shell__content">
         {appState === "nudge" && (
           <NudgePanel
             onStart={handleLetsStart}
@@ -92,76 +111,27 @@ function App() {
         )}
 
         {appState === "focus" && (
-          <FocusMode onSubmit={() => setAppState("submitted")} />
+          <FocusMode
+            onSubmit={() => setAppState("submitted")}
+            remainingSeconds={focusSeconds}
+          />
         )}
 
-        <div style={{ flex: 1, overflow: "auto" }}>
+        <div className="app-shell__workspace">
           {appState === "submitted" ? (
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                minHeight: "100%",
-                padding: "40px",
-              }}
-            >
-              <div
-                style={{
-                  maxWidth: "500px",
-                  width: "100%",
-                  backgroundColor: "#1e1e1e",
-                  borderRadius: "16px",
-                  padding: "48px",
-                  boxShadow: "0 4px 24px rgba(0,0,0,0.4)",
-                  textAlign: "center",
-                  border: "1px solid #4caf50",
-                }}
-              >
-                <div style={{ fontSize: "56px", marginBottom: "16px" }}>✓</div>
-                <div
-                  style={{
-                    fontWeight: "bold",
-                    fontSize: "22px",
-                    marginBottom: "8px",
-                    color: "#4caf50",
-                  }}
-                >
-                  Essay Submitted!
-                </div>
-                <div
-                  style={{
-                    fontSize: "13px",
-                    color: "#888",
-                    marginBottom: "20px",
-                  }}
-                >
+            <div className="submission-state">
+              <div className="submission-state__card">
+                <div className="submission-state__check">✓</div>
+                <div className="submission-state__title">Essay Submitted!</div>
+                <div className="submission-state__meta">
                   Submitted at 10:58 PM — before the deadline!
                 </div>
-                <div
-                  style={{
-                    backgroundColor: "#2a2a2a",
-                    borderRadius: "10px",
-                    padding: "12px",
-                    fontSize: "13px",
-                    color: "#4caf50",
-                    marginBottom: "20px",
-                  }}
-                >
+                <div className="submission-state__message">
                   Great work staying focused, Jack!
                 </div>
                 <button
                   onClick={() => setAppState("idle")}
-                  style={{
-                    backgroundColor: "#4caf50",
-                    color: "#fff",
-                    border: "none",
-                    borderRadius: "10px",
-                    padding: "12px 28px",
-                    cursor: "pointer",
-                    fontWeight: "bold",
-                    fontSize: "14px",
-                  }}
+                  className="submission-state__button"
                 >
                   Start New Session
                 </button>
@@ -178,6 +148,7 @@ function App() {
           currentTask="English Essay"
           deadline="11:00 PM"
           appState={appState}
+          remainingSeconds={focusSeconds}
         />
       </div>
     </div>

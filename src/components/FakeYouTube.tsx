@@ -2,6 +2,8 @@ interface FakeYouTubeProps {
   onPlay: () => void;
 }
 
+import "./FakeYouTube.css";
+
 const sideVideos = [
   {
     img: "https://images.unsplash.com/photo-1504450758481-7338eba7524a?w=300&q=80",
@@ -32,128 +34,38 @@ const sideVideos = [
 
 function FakeYouTube({ onPlay }: FakeYouTubeProps) {
   return (
-    <div
-      style={{
-        backgroundColor: "#121212",
-        minHeight: "100%",
-        padding: "32px 40px",
-        display: "flex",
-        gap: "24px",
-      }}
-    >
-      <div style={{ flex: 1, maxWidth: "720px" }}>
-        <div
-          style={{
-            backgroundColor: "#000",
-            borderRadius: "12px",
-            overflow: "hidden",
-            aspectRatio: "16/9",
-            position: "relative",
-            cursor: "pointer",
-            marginBottom: "16px",
-          }}
-          onClick={onPlay}
-        >
+    <div className="fake-youtube">
+      <div className="fake-youtube__main">
+        <div className="fake-youtube__player" onClick={onPlay}>
           <img
             src="https://images.unsplash.com/photo-1546519638-68e109498ffc?w=720&q=80"
             alt="thumbnail"
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              opacity: 0.8,
-            }}
+            className="fake-youtube__thumbnail"
           />
-          <div
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              width: "72px",
-              height: "72px",
-              backgroundColor: "rgba(255,0,0,0.9)",
-              borderRadius: "16px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <div
-              style={{
-                width: 0,
-                height: 0,
-                borderTop: "14px solid transparent",
-                borderBottom: "14px solid transparent",
-                borderLeft: "22px solid white",
-                marginLeft: "5px",
-              }}
-            />
+          <div className="fake-youtube__play-button">
+            <div className="fake-youtube__play-icon" />
           </div>
         </div>
 
-        <div style={{ marginBottom: "16px" }}>
-          <div
-            style={{
-              fontSize: "18px",
-              fontWeight: "bold",
-              color: "#fff",
-              marginBottom: "8px",
-            }}
-          >
+        <div className="fake-youtube__info-block">
+          <div className="fake-youtube__title">
             NBA Top 10 Plays of the Week
           </div>
-          <div
-            style={{ fontSize: "13px", color: "#888", marginBottom: "12px" }}
-          >
+          <div className="fake-youtube__meta">
             2.4M views · 3 days ago · NBA
           </div>
-          <div
-            style={{
-              display: "flex",
-              gap: "12px",
-              paddingBottom: "16px",
-              borderBottom: "1px solid #333",
-            }}
-          >
+          <div className="fake-youtube__actions">
             {["👍 84K", "👎 Dislike", "↗ Share", "+ Save"].map((action) => (
-              <button
-                key={action}
-                style={{
-                  backgroundColor: "#2a2a2a",
-                  border: "1px solid #444",
-                  borderRadius: "20px",
-                  padding: "8px 16px",
-                  color: "#fff",
-                  cursor: "pointer",
-                  fontSize: "13px",
-                }}
-              >
+              <button key={action} className="fake-youtube__chip">
                 {action}
               </button>
             ))}
           </div>
         </div>
 
-        <div
-          style={{
-            backgroundColor: "#1e1e1e",
-            borderRadius: "12px",
-            padding: "16px",
-            border: "1px solid #333",
-          }}
-        >
-          <div
-            style={{
-              fontSize: "13px",
-              color: "#fff",
-              marginBottom: "8px",
-              fontWeight: "bold",
-            }}
-          >
-            NBA · 18.7M subscribers
-          </div>
-          <div style={{ fontSize: "13px", color: "#aaa", lineHeight: "1.6" }}>
+        <div className="fake-youtube__description-card">
+          <div className="fake-youtube__channel">NBA · 18.7M subscribers</div>
+          <div className="fake-youtube__description">
             The official YouTube channel of the NBA. Watch the best plays from
             around the league every week including dunks, assists, blocks and
             more...
@@ -161,50 +73,18 @@ function FakeYouTube({ onPlay }: FakeYouTubeProps) {
         </div>
       </div>
 
-      <div style={{ width: "280px" }}>
-        <div
-          style={{
-            fontSize: "14px",
-            color: "#fff",
-            fontWeight: "bold",
-            marginBottom: "12px",
-          }}
-        >
-          Up next
-        </div>
+      <div className="fake-youtube__sidebar">
+        <div className="fake-youtube__up-next">Up next</div>
         {sideVideos.map((video, index) => (
-          <div
-            key={index}
-            style={{
-              display: "flex",
-              gap: "10px",
-              marginBottom: "12px",
-              cursor: "pointer",
-            }}
-          >
+          <div key={index} className="fake-youtube__video">
             <img
               src={video.img}
               alt={video.title}
-              style={{
-                width: "120px",
-                height: "68px",
-                borderRadius: "8px",
-                objectFit: "cover",
-                flexShrink: 0,
-              }}
+              className="fake-youtube__video-thumb"
             />
             <div>
-              <div
-                style={{
-                  fontSize: "12px",
-                  color: "#fff",
-                  marginBottom: "4px",
-                  lineHeight: "1.4",
-                }}
-              >
-                {video.title}
-              </div>
-              <div style={{ fontSize: "11px", color: "#888" }}>
+              <div className="fake-youtube__video-title">{video.title}</div>
+              <div className="fake-youtube__video-meta">
                 NBA · {video.views}
               </div>
             </div>

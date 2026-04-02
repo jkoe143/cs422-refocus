@@ -1,0 +1,73 @@
+.distraction-alert {
+  position: fixed;
+  top: 50%;
+  left: 45%;
+  z-index: 1000;
+  width: 340px;
+  padding: 28px;
+  border: 2px solid #ef5350;
+  border-radius: 16px;
+  background-color: #1e1e1e;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  transform: translate(-50%, -50%);
+}
+
+.distraction-alert__icon {
+  margin-bottom: 8px;
+  font-size: 24px;
+  text-align: center;
+}
+
+.distraction-alert__title {
+  margin-bottom: 8px;
+  color: #ef5350;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.distraction-alert__subtitle {
+  margin-bottom: 16px;
+  color: #aaa;
+  font-size: 13px;
+  text-align: center;
+}
+
+.distraction-alert__callout {
+  margin-bottom: 20px;
+  padding: 12px;
+  border: 1px solid #ef5350;
+  border-radius: 10px;
+  background-color: #2a2a2a;
+  color: #ef5350;
+  font-size: 13px;
+  text-align: center;
+}
+
+.distraction-alert__actions {
+  display: flex;
+  gap: 10px;
+}
+
+.distraction-alert__button {
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.distraction-alert__button--primary {
+  border: none;
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.distraction-alert__button--secondary {
+  border: 1px solid #444;
+  background-color: #2a2a2a;
+  color: #888;
+  font-size: 13px;
+  font-weight: normal;
+}
