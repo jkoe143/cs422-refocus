@@ -10,14 +10,15 @@ function Sidebar({ currentTask, deadline, appState }: SidebarProps) {
   return (
     <div
       style={{
-        width: "240px",
+        width: "280px",
+        maxWidth: "100%",
         minHeight: "100vh",
         backgroundColor: "#1e1e1e",
         borderLeft: "1px solid #333",
-        padding: "20px 16px",
+        padding: "20px",
         display: "flex",
         flexDirection: "column",
-        gap: "14px",
+        gap: "16px",
         boxShadow: "-2px 0 12px rgba(0,0,0,0.4)",
       }}
     >
@@ -41,6 +42,7 @@ function Sidebar({ currentTask, deadline, appState }: SidebarProps) {
           borderRadius: "10px",
           padding: "14px",
           border: "1px solid #444",
+          textAlign: "center",
         }}
       >
         <div
@@ -143,7 +145,11 @@ function Sidebar({ currentTask, deadline, appState }: SidebarProps) {
           fontWeight: "bold",
           fontSize: "13px",
           color: "#f9a825",
-          textAlign: "left",
+          textAlign: "center",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "8px",
         }}
       >
         🔔 Nudge
@@ -159,7 +165,11 @@ function Sidebar({ currentTask, deadline, appState }: SidebarProps) {
           fontWeight: "bold",
           fontSize: "13px",
           color: "#4caf50",
-          textAlign: "left",
+          textAlign: "center",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "8px",
         }}
       >
         📝 Clear Your Head
@@ -175,7 +185,11 @@ function Sidebar({ currentTask, deadline, appState }: SidebarProps) {
           fontWeight: "bold",
           fontSize: "13px",
           color: "#ef5350",
-          textAlign: "left",
+          textAlign: "center",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "8px",
         }}
       >
         ✕ Emergency Quit
