@@ -99,14 +99,29 @@
   color: #f9a825;
 }
 
+.sidebar__button--nudge:hover {
+  background-color: #f9a825;
+  color: #1e1e1e;
+}
+
 .sidebar__button--clear {
   border: 1px solid #4caf50;
   color: #4caf50;
 }
 
+.sidebar__button--clear:hover {
+  background-color: #4caf50;
+  color: #1e1e1e;
+}
+
 .sidebar__button--quit {
   border: 1px solid #ef5350;
   color: #ef5350;
+}
+
+.sidebar__button--quit:hover {
+  background-color: #ef5350;
+  color: #1e1e1e;
 }
 
 .sidebar__status {
