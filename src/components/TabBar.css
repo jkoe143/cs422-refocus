@@ -1,16 +1,17 @@
 .tab-bar {
   display: flex;
   gap: 4px;
-  padding: 8px 16px;
+  padding: 8px 16px 0 16px;
   border-bottom: 1px solid #333;
   background-color: #1a1a1a;
 }
 
 .tab-bar__button {
+  position: relative;
   padding: 6px 16px;
   border: 1px solid #333;
   border-radius: 8px 8px 0 0;
-  border-bottom: 1px solid #333;
+  border-bottom: 2px solid #333;
   background-color: #1e1e1e;
   color: #888;
   cursor: pointer;
@@ -18,9 +19,29 @@
   transition: all 0.2s ease;
 }
 
-.tab-bar__button--active {
-  border-bottom: 2px solid #4caf50;
+.tab-bar__button:after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  width: 0;
+  height: 3px;
+  background-color: #4caf50;
+  transform: translateX(-50%);
+  transition: width 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+
+.tab-bar__button:hover {
   background-color: #2a2a2a;
   color: #fff;
-  font-weight: bold;
+}
+
+.tab-bar__button--active {
+  border-bottom: 2px solid #333;
+  background-color: #2a2a2a;
+  color: #fff;
+}
+
+.tab-bar__button--active:after {
+  width: 100%;
 }
