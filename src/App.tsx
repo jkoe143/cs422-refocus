@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Sidebar from "./components/Sidebar";
 import NudgePanel from "./components/NudgePanel";
 import DistractionAlert from "./components/DistractionAlert";
@@ -24,15 +24,6 @@ function App() {
   const [appState, setAppState] = useState<AppState>("idle");
   const [activeTab, setActiveTab] = useState<"essay" | "youtube">("youtube");
   const [focusSeconds, setFocusSeconds] = useState(FOCUS_DURATION_SECONDS);
-  const previousAppStateRef = useRef<AppState>("idle");
-
-  useEffect(() => {
-    if (appState === "focus" && previousAppStateRef.current !== "focus") {
-      setFocusSeconds(FOCUS_DURATION_SECONDS);
-    }
-
-    previousAppStateRef.current = appState;
-  }, [appState]);
 
   useEffect(() => {
     if (appState !== "focus") {
@@ -77,6 +68,11 @@ function App() {
 
   const handleTabChange = (tab: "essay" | "youtube") => {
     setActiveTab(tab);
+  };
+
+  const handleStartNewSession = () => {
+    setFocusSeconds(FOCUS_DURATION_SECONDS);
+    setAppState("idle");
   };
 
   const appShellClassName = [
@@ -130,7 +126,7 @@ function App() {
                   Great work staying focused, Jack!
                 </div>
                 <button
-                  onClick={() => setAppState("idle")}
+                  onClick={handleStartNewSession}
                   className="submission-state__button"
                 >
                   Start New Session
