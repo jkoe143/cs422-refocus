@@ -76,19 +76,7 @@ function App() {
     }
     setActiveTab(tab);
   };
-
-  const handleStartNewSession = () => {
-    setFocusSeconds(FOCUS_DURATION_SECONDS);
-    setAppState("idle");
-  };
-
-  const appShellClassName = [
-    "app-shell",
-    appState === "distraction" ? "app-shell--distraction" : "",
-    appState === "focus" ? "app-shell--focus" : "",
-  ]
-    .filter(Boolean)
-    .join(" ");
+  
   const handleRefocus = () => {
     setAppState("focus");
     setActiveTab("essay");
