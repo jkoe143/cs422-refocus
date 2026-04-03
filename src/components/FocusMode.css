@@ -35,3 +35,7 @@
   font-size: 13px;
   font-weight: bold;
 }
+
+.focus-mode__button:hover {
+  background-color: #45a049;
+}

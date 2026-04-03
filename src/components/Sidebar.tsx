@@ -5,6 +5,7 @@ interface SidebarProps {
   deadline: string;
   appState: string;
   remainingSeconds: number;
+  usedSeconds: number;
   thoughts: string[];
   onNudgeClick: () => void;
   onClearYourHeadClick: () => void;
@@ -17,6 +18,7 @@ function Sidebar({
   deadline,
   appState,
   remainingSeconds,
+  usedSeconds,
   thoughts,
   onNudgeClick,
   onClearYourHeadClick,
@@ -25,11 +27,13 @@ function Sidebar({
 }: SidebarProps) {
   const isRunning = appState === "focus";
   const isPaused = appState === "paused";
+  const isSubmitted = appState === "submitted";
 
-  const minutes = Math.floor(remainingSeconds / 60)
+  const timerSeconds = isSubmitted ? usedSeconds : remainingSeconds;
+  const minutes = Math.floor(timerSeconds / 60)
     .toString()
     .padStart(2, "0");
-  const seconds = (remainingSeconds % 60).toString().padStart(2, "0");
+  const seconds = (timerSeconds % 60).toString().padStart(2, "0");
 
   return (
     <div className="sidebar">
@@ -44,7 +48,9 @@ function Sidebar({
       <div
         className={`sidebar__card ${isRunning || isPaused ? "sidebar__card--running" : ""}`}
       >
-        <div className="sidebar__label">Focus Timer</div>
+        <div className="sidebar__label">
+          {isSubmitted ? "You Used" : "Focus Timer"}
+        </div>
         <div
           className={`sidebar__timer ${isRunning ? "sidebar__timer--running" : ""}`}
         >

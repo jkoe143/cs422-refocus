@@ -24,6 +24,8 @@ function App() {
   const [appState, setAppState] = useState<AppState>("idle");
   const [activeTab, setActiveTab] = useState<"essay" | "youtube">("youtube");
   const [focusSeconds, setFocusSeconds] = useState(FOCUS_DURATION_SECONDS);
+  const usedFocusSeconds = Math.max(FOCUS_DURATION_SECONDS - focusSeconds, 0);
+
   const [thoughts, setThoughts] = useState<string[]>([]);
   const [showNudge, setShowNudge] = useState(false);
   const [showClearYourHead, setShowClearYourHead] = useState(false);
@@ -74,7 +76,7 @@ function App() {
     }
     setActiveTab(tab);
   };
-
+  
   const handleRefocus = () => {
     setAppState("focus");
     setActiveTab("essay");
@@ -194,6 +196,7 @@ function App() {
           deadline="11:00 PM"
           appState={appState}
           remainingSeconds={focusSeconds}
+          usedSeconds={usedFocusSeconds}
           thoughts={thoughts}
           onNudgeClick={handleNudgeClick}
           onClearYourHeadClick={handleClearYourHeadClick}
