@@ -1,6 +1,5 @@
 .sidebar {
   width: 280px;
-  max-width: 100%;
   min-height: 100vh;
   padding: 20px;
   display: flex;
@@ -69,6 +68,12 @@
   font-size: 11px;
 }
 
+.sidebar__paused {
+  margin-top: 4px;
+  color: #f9a825;
+  font-size: 11px;
+}
+
 .sidebar__track {
   margin-bottom: 10px;
   color: #fff;
@@ -92,6 +97,7 @@
   font-size: 13px;
   font-weight: bold;
   text-align: center;
+  transition: all 0.2s ease;
 }
 
 .sidebar__button--nudge {
@@ -124,9 +130,44 @@
   color: #1e1e1e;
 }
 
+.sidebar__button--resume {
+  border: 1px solid #4caf50;
+  color: #4caf50;
+}
+
+.sidebar__button--resume:hover {
+  background-color: #4caf50;
+  color: #1e1e1e;
+}
+
 .sidebar__status {
   margin-top: auto;
   color: #555;
   font-size: 11px;
   text-align: center;
+}
+
+.sidebar__thoughts {
+  padding: 14px;
+  border: 1px solid #444;
+  border-radius: 10px;
+  background-color: #2a2a2a;
+}
+
+.sidebar__thoughts-title {
+  margin-bottom: 8px;
+  color: #888;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.sidebar__thought-item {
+  padding: 8px;
+  margin-bottom: 6px;
+  border-radius: 6px;
+  background-color: #1e1e1e;
+  color: #ccc;
+  font-size: 12px;
+  line-height: 1.4;
 }

@@ -5,6 +5,11 @@ interface SidebarProps {
   deadline: string;
   appState: string;
   remainingSeconds: number;
+  thoughts: string[];
+  onNudgeClick: () => void;
+  onClearYourHeadClick: () => void;
+  onEmergencyQuit: () => void;
+  onResumeFocus: () => void;
 }
 
 function Sidebar({
@@ -12,8 +17,14 @@ function Sidebar({
   deadline,
   appState,
   remainingSeconds,
+  thoughts,
+  onNudgeClick,
+  onClearYourHeadClick,
+  onEmergencyQuit,
+  onResumeFocus,
 }: SidebarProps) {
   const isRunning = appState === "focus";
+  const isPaused = appState === "paused";
 
   const minutes = Math.floor(remainingSeconds / 60)
     .toString()
@@ -31,7 +42,7 @@ function Sidebar({
       </div>
 
       <div
-        className={`sidebar__card ${isRunning ? "sidebar__card--running" : ""}`}
+        className={`sidebar__card ${isRunning || isPaused ? "sidebar__card--running" : ""}`}
       >
         <div className="sidebar__label">Focus Timer</div>
         <div
@@ -40,6 +51,7 @@ function Sidebar({
           {minutes}:{seconds}
         </div>
         {isRunning && <div className="sidebar__running">● RUNNING</div>}
+        {isPaused && <div className="sidebar__paused">⏸ PAUSED</div>}
       </div>
 
       {isRunning && (
@@ -56,20 +68,56 @@ function Sidebar({
         </div>
       )}
 
-      <button className="sidebar__button sidebar__button--nudge">
+      {isPaused && (
+        <button
+          className="sidebar__button sidebar__button--resume"
+          onClick={onResumeFocus}
+        >
+          ▶ Resume Focus
+        </button>
+      )}
+
+      <button
+        className="sidebar__button sidebar__button--nudge"
+        onClick={onNudgeClick}
+      >
         🔔 Nudge
       </button>
 
-      <button className="sidebar__button sidebar__button--clear">
+      <button
+        className="sidebar__button sidebar__button--clear"
+        onClick={onClearYourHeadClick}
+      >
         📝 Clear Your Head
       </button>
 
-      <button className="sidebar__button sidebar__button--quit">
-        ✕ Emergency Quit
-      </button>
+      {(isRunning || isPaused) && (
+        <button
+          className="sidebar__button sidebar__button--quit"
+          onClick={onEmergencyQuit}
+        >
+          ✕ Emergency Quit
+        </button>
+      )}
+
+      {thoughts.length > 0 && (
+        <div className="sidebar__thoughts">
+          <div className="sidebar__thoughts-title">Saved Thoughts</div>
+          {thoughts.map((t, i) => (
+            <div key={i} className="sidebar__thought-item">
+              {t}
+            </div>
+          ))}
+        </div>
+      )}
 
       <div className="sidebar__status">
-        ● {appState === "focus" ? "Focusing" : "Idle"}
+        ●{" "}
+        {appState === "focus"
+          ? "Focusing"
+          : appState === "paused"
+            ? "On Break"
+            : "Idle"}
       </div>
     </div>
   );

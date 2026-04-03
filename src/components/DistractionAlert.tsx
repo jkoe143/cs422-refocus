@@ -13,6 +13,9 @@ function DistractionAlert({ onRefocus, onBreak }: DistractionAlertProps) {
       <div className="distraction-alert__subtitle">
         Still working on your English Essay?
       </div>
+      <div className="distraction-alert__tab-notice">
+        📋 Tab switch detected — non-essay tab opened
+      </div>
       <div className="distraction-alert__callout">
         ⚠️ Deadline is approaching!
       </div>

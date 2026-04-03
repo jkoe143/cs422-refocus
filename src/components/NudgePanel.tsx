@@ -16,7 +16,7 @@ function NudgePanel({ onStart, onLater }: NudgePanelProps) {
   return (
     <div className="nudge-panel">
       <div className="nudge-panel__icon">⏰</div>
-      <div className="nudge-panel__title">Hey Jack!</div>
+      <div className="nudge-panel__title">Heads Up!</div>
       <div className="nudge-panel__subtitle">
         Your English Essay is due in{" "}
         <span className="nudge-panel__deadline">

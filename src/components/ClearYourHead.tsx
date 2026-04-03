@@ -2,10 +2,10 @@ import { useState } from "react";
 import "./ClearYourHead.css";
 
 interface ClearYourHeadProps {
-  onStart: () => void;
+  onSave: (thought: string) => void;
 }
 
-function ClearYourHead({ onStart }: ClearYourHeadProps) {
+function ClearYourHead({ onSave }: ClearYourHeadProps) {
   const [thought, setThought] = useState("");
 
   return (
@@ -21,9 +21,20 @@ function ClearYourHead({ onStart }: ClearYourHeadProps) {
         onChange={(e) => setThought(e.target.value)}
         placeholder="e.g. That basketball play was incredible..."
       />
-      <button className="clear-your-head__button" onClick={onStart}>
-        Start Focus Session
-      </button>
+      <div className="clear-your-head__actions">
+        <button
+          className="clear-your-head__button clear-your-head__button--primary"
+          onClick={() => onSave(thought)}
+        >
+          Save Thoughts
+        </button>
+        <button
+          className="clear-your-head__button clear-your-head__button--secondary"
+          onClick={() => onSave("")}
+        >
+          Cancel
+        </button>
+      </div>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import Sidebar from "./components/Sidebar";
 import NudgePanel from "./components/NudgePanel";
 import DistractionAlert from "./components/DistractionAlert";
@@ -7,7 +7,6 @@ import FocusMode from "./components/FocusMode";
 import FakeYouTube from "./components/FakeYouTube";
 import EssayEditor from "./components/EssayEditor";
 import TabBar from "./components/TabBar";
-
 import "./App.css";
 
 type AppState =
@@ -17,6 +16,7 @@ type AppState =
   | "distraction"
   | "clearhead"
   | "focus"
+  | "paused"
   | "submitted";
 
 function App() {
@@ -24,95 +24,132 @@ function App() {
   const [appState, setAppState] = useState<AppState>("idle");
   const [activeTab, setActiveTab] = useState<"essay" | "youtube">("youtube");
   const [focusSeconds, setFocusSeconds] = useState(FOCUS_DURATION_SECONDS);
-  const previousAppStateRef = useRef<AppState>("idle");
+  const [thoughts, setThoughts] = useState<string[]>([]);
+  const [showNudge, setShowNudge] = useState(false);
+  const [showClearYourHead, setShowClearYourHead] = useState(false);
+  const [showRefocusSuggestion, setShowRefocusSuggestion] = useState(false);
+  const intervalRef = useRef<number | null>(null);
 
-  useEffect(() => {
-    if (appState === "focus" && previousAppStateRef.current !== "focus") {
-      setFocusSeconds(FOCUS_DURATION_SECONDS);
-    }
-
-    previousAppStateRef.current = appState;
-  }, [appState]);
-
-  useEffect(() => {
-    if (appState !== "focus") {
-      return;
-    }
-
-    const interval = window.setInterval(() => {
-      setFocusSeconds((prev) => Math.max(prev - 1, 0));
+  const startTimer = () => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    intervalRef.current = window.setInterval(() => {
+      setFocusSeconds((prev) => {
+        if (prev <= 0) {
+          clearInterval(intervalRef.current!);
+          return 0;
+        }
+        return prev - 1;
+      });
     }, 1000);
+  };
 
-    return () => window.clearInterval(interval);
-  }, [appState]);
-
-  useEffect(() => {
-    if (appState === "idle") {
-      const timer = setTimeout(() => {
-        setAppState("nudge");
-      }, 10000);
-      return () => clearTimeout(timer);
+  const stopTimer = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
     }
-  }, [appState]);
+  };
+
+  const handleNudgeClick = () => {
+    setShowNudge(true);
+  };
 
   const handleLetsStart = () => {
+    setShowNudge(false);
+    setFocusSeconds(FOCUS_DURATION_SECONDS);
     setAppState("focus");
     setActiveTab("essay");
+    startTimer();
   };
 
-  const handleYouTubePlay = () => {
-    if (appState === "working" || appState === "focus") {
-      setAppState("distraction");
-    }
-  };
-
-  const handleRefocus = () => {
-    setAppState("clearhead");
-  };
-
-  const handleStartFocusSession = () => {
-    setAppState("focus");
-    setActiveTab("essay");
+  const handleNudgeLater = () => {
+    setShowNudge(false);
   };
 
   const handleTabChange = (tab: "essay" | "youtube") => {
+    if (appState === "focus" && tab === "youtube") {
+      setAppState("distraction");
+      stopTimer();
+      return;
+    }
     setActiveTab(tab);
   };
 
-  const appShellClassName = [
-    "app-shell",
-    appState === "distraction" ? "app-shell--distraction" : "",
-    appState === "focus" ? "app-shell--focus" : "",
-  ]
-    .filter(Boolean)
-    .join(" ");
+  const handleRefocus = () => {
+    setAppState("focus");
+    setActiveTab("essay");
+    setShowRefocusSuggestion(true);
+    startTimer();
+  };
+
+  const handleTakeBreak = () => {
+    setAppState("paused");
+    setActiveTab("youtube");
+  };
+
+  const handleResumeFocus = () => {
+    setAppState("focus");
+    setActiveTab("essay");
+    startTimer();
+  };
+
+  const handleClearYourHeadClick = () => {
+    setShowClearYourHead(true);
+    setShowRefocusSuggestion(false);
+  };
+
+  const handleSaveThoughts = (thought: string) => {
+    if (thought.trim()) {
+      setThoughts((prev) => [...prev, thought]);
+    }
+    setShowClearYourHead(false);
+  };
+
+  const handleEmergencyQuit = () => {
+    stopTimer();
+    setAppState("idle");
+    setActiveTab("youtube");
+    setShowNudge(false);
+    setShowClearYourHead(false);
+    setShowRefocusSuggestion(false);
+  };
+
+  const handleYouTubePlay = () => {
+    if (appState === "paused") {
+      return;
+    }
+  };
+
+  const getBorderClass = () => {
+    if (appState === "distraction") return "app-shell app-shell--distraction";
+    if (appState === "focus") return "app-shell app-shell--focus";
+    return "app-shell";
+  };
 
   return (
-    <div className={appShellClassName}>
+    <div className={getBorderClass()}>
       <TabBar activeTab={activeTab} onTabChange={handleTabChange} />
 
       <div className="app-shell__content">
-        {appState === "nudge" && (
-          <NudgePanel
-            onStart={handleLetsStart}
-            onLater={() => setAppState("working")}
-          />
+        {showNudge && (
+          <NudgePanel onStart={handleLetsStart} onLater={handleNudgeLater} />
         )}
 
         {appState === "distraction" && (
           <DistractionAlert
             onRefocus={handleRefocus}
-            onBreak={() => setAppState("working")}
+            onBreak={handleTakeBreak}
           />
         )}
 
-        {appState === "clearhead" && (
-          <ClearYourHead onStart={handleStartFocusSession} />
-        )}
+        {showClearYourHead && <ClearYourHead onSave={handleSaveThoughts} />}
 
         {appState === "focus" && (
           <FocusMode
-            onSubmit={() => setAppState("submitted")}
+            onSubmit={() => {
+              stopTimer();
+              setAppState("submitted");
+            }}
             remainingSeconds={focusSeconds}
           />
         )}
@@ -127,10 +164,15 @@ function App() {
                   Submitted at 10:58 PM — before the deadline!
                 </div>
                 <div className="submission-state__message">
-                  Great work staying focused, Jack!
+                  Great work staying focused!
                 </div>
                 <button
-                  onClick={() => setAppState("idle")}
+                  onClick={() => {
+                    setAppState("idle");
+                    setActiveTab("youtube");
+                    setFocusSeconds(FOCUS_DURATION_SECONDS);
+                    setThoughts([]);
+                  }}
                   className="submission-state__button"
                 >
                   Start New Session
@@ -138,7 +180,10 @@ function App() {
               </div>
             </div>
           ) : activeTab === "essay" ? (
-            <EssayEditor />
+            <EssayEditor
+              showRefocusSuggestion={showRefocusSuggestion}
+              onClearYourHead={handleClearYourHeadClick}
+            />
           ) : (
             <FakeYouTube onPlay={handleYouTubePlay} />
           )}
@@ -149,6 +194,11 @@ function App() {
           deadline="11:00 PM"
           appState={appState}
           remainingSeconds={focusSeconds}
+          thoughts={thoughts}
+          onNudgeClick={handleNudgeClick}
+          onClearYourHeadClick={handleClearYourHeadClick}
+          onEmergencyQuit={handleEmergencyQuit}
+          onResumeFocus={handleResumeFocus}
         />
       </div>
     </div>
