@@ -2,14 +2,26 @@
   position: fixed;
   top: 50%;
   left: 45%;
-  transform: translate(-50%, -50%);
-  width: 340px;
   z-index: 1000;
+  width: 340px;
   padding: 28px;
   border: 1px solid #4caf50;
   border-radius: 16px;
   background-color: #1e1e1e;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  transform: translate(-50%, -50%);
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -55%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
 }
 
 .clear-your-head__icon {
@@ -46,16 +58,46 @@
   font-size: 13px;
   outline: none;
   resize: none;
+  transition: border-color 0.2s ease;
+}
+
+.clear-your-head__textarea:focus {
+  border-color: #4caf50;
+}
+
+.clear-your-head__actions {
+  display: flex;
+  gap: 10px;
 }
 
 .clear-your-head__button {
-  width: 100%;
+  flex: 1;
   padding: 12px;
-  border: none;
   border-radius: 10px;
-  background-color: #4caf50;
-  color: #fff;
   cursor: pointer;
   font-size: 14px;
   font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.clear-your-head__button--primary {
+  border: none;
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.clear-your-head__button--primary:hover {
+  background-color: #45a049;
+}
+
+.clear-your-head__button--secondary {
+  border: 1px solid #444;
+  background-color: #2a2a2a;
+  color: #888;
+  font-size: 13px;
+  font-weight: normal;
+}
+
+.clear-your-head__button--secondary:hover {
+  background-color: #333;
 }

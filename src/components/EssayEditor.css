@@ -35,6 +35,50 @@
   font-size: 12px;
 }
 
+.essay-editor__suggestion {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  border: 1px solid #4caf50;
+  border-radius: 12px;
+  background-color: #1a2e1a;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.essay-editor__suggestion-text {
+  color: #4caf50;
+  font-size: 13px;
+}
+
+.essay-editor__suggestion-button {
+  padding: 6px 14px;
+  border: 1px solid #4caf50;
+  border-radius: 8px;
+  background-color: transparent;
+  color: #4caf50;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.essay-editor__suggestion-button:hover {
+  background-color: #4caf50;
+  color: #1e1e1e;
+}
+
 .essay-editor__card {
   border: 1px solid #333;
   border-radius: 12px;
@@ -60,16 +104,20 @@
   color: #888;
   cursor: pointer;
   font-size: 13px;
+  transition: all 0.2s ease;
+}
+
+.essay-editor__format:hover {
+  background-color: #333;
+  color: #fff;
 }
 
 .essay-editor__format--bold {
   font-weight: bold;
 }
-
 .essay-editor__format--italic {
   font-style: italic;
 }
-
 .essay-editor__format--underline {
   text-decoration: underline;
 }
@@ -131,4 +179,10 @@
   color: #888;
   cursor: pointer;
   font-size: 13px;
+  transition: all 0.2s ease;
+}
+
+.essay-editor__save:hover {
+  background-color: #333;
+  color: #fff;
 }
