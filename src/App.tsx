@@ -106,7 +106,9 @@ function App() {
       setThoughts((prev) => [...prev, thought]);
     }
     setShowClearYourHead(false);
-    startTimer();
+    if (appState == "focus") {
+        startTimer();
+    }
   };
 
   const handleEmergencyQuit = () => {
