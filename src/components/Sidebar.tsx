@@ -1,3 +1,4 @@
+import { useState } from "react";
 import "./Sidebar.css";
 
 interface SidebarProps {
@@ -25,6 +26,7 @@ function Sidebar({
   onEmergencyQuit,
   onResumeFocus,
 }: SidebarProps) {
+  const [showQuitConfirm, setShowQuitConfirm] = useState(false);
   const isRunning = appState === "focus";
   const isPaused = appState === "paused";
   const isSubmitted = appState === "submitted";
@@ -98,12 +100,55 @@ function Sidebar({
       </button>
 
       {(isRunning || isPaused) && (
-        <button
-          className="sidebar__button sidebar__button--quit"
-          onClick={onEmergencyQuit}
-        >
-          ✕ Emergency Quit
-        </button>
+        <>
+          {showQuitConfirm ? (
+            <div
+              style={{
+                padding: "12px",
+                border: "1px solid #ef5350",
+                borderRadius: "10px",
+                backgroundColor: "#2a2a2a",
+                textAlign: "center",
+              }}
+            >
+              <div
+                style={{
+                  color: "#ef5350",
+                  fontSize: "12px",
+                  marginBottom: "10px",
+                }}
+              >
+                Are you sure you want to quit your focus session?
+              </div>
+              <div style={{ display: "flex", gap: "8px" }}>
+                <button
+                  className="sidebar__button sidebar__button--quit"
+                  style={{ flex: 1, padding: "8px", fontSize: "12px" }}
+                  onClick={() => {
+                    setShowQuitConfirm(false);
+                    onEmergencyQuit();
+                  }}
+                >
+                  Yes, Quit
+                </button>
+                <button
+                  className="sidebar__button sidebar__button--clear"
+                  style={{ flex: 1, padding: "8px", fontSize: "12px" }}
+                  onClick={() => setShowQuitConfirm(false)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          ) : (
+            <button
+              className="sidebar__button sidebar__button--quit"
+              onClick={() => setShowQuitConfirm(true)}
+            >
+              ✕ Emergency Quit
+            </button>
+          )}
+        </>
       )}
 
       {thoughts.length > 0 && (

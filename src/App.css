@@ -21,6 +21,7 @@
 .app-shell__workspace {
   flex: 1;
   overflow: auto;
+  position: relative;
 }
 
 .submission-state {

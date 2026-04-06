@@ -1,26 +1,22 @@
 .distraction-alert {
   position: fixed;
   top: 50%;
-  left: 45%;
+  left: 50%;
   z-index: 1000;
-  width: 360px;
+  width: 340px;
   padding: 28px;
   border: 2px solid #ef5350;
   border-radius: 16px;
   background-color: #1e1e1e;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
   transform: translate(-50%, -50%);
-  animation: fadeIn 0.3s ease;
+  animation: nudgePanelFadeIn 0.25s ease;
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -55%);
-  }
   to {
     opacity: 1;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) scale(1);
   }
 }
 

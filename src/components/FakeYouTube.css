@@ -3,6 +3,7 @@
   padding: 32px 40px;
   background-color: #121212;
   display: flex;
+  justify-content: center;
   gap: 24px;
 }
 
