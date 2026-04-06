@@ -98,6 +98,7 @@ function App() {
   const handleClearYourHeadClick = () => {
     setShowClearYourHead(true);
     setShowRefocusSuggestion(false);
+    stopTimer();
   };
 
   const handleSaveThoughts = (thought: string) => {
@@ -105,6 +106,7 @@ function App() {
       setThoughts((prev) => [...prev, thought]);
     }
     setShowClearYourHead(false);
+    startTimer();
   };
 
   const handleEmergencyQuit = () => {
