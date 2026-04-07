@@ -74,6 +74,11 @@ function App() {
       stopTimer();
       return;
     }
+    // if the user is taking a break they can also click on the work tab to refocus
+    if (appState === "paused" && tab == "essay") {
+      handleRefocus();
+      return;
+    }
     setActiveTab(tab);
   };
   
