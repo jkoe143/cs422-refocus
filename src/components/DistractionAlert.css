@@ -86,12 +86,12 @@
 
 .distraction-alert__button--secondary {
   border: 1px solid #444;
-  background-color: #2a2a2a;
-  color: #888;
+  background-color: #ba9718;
+  color: #fff;
   font-size: 13px;
   font-weight: normal;
 }
 
 .distraction-alert__button--secondary:hover {
-  background-color: #333;
+  background-color: #eabe21;
 }
