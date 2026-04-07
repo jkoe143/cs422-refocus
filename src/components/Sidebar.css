@@ -174,6 +174,11 @@
   justify-content: space-between;
   align-items: center;
 }
+.sidebar__thought-text {
+  flex: 1;
+  min-width: 0;
+  word-break: break-word;
+}
 .delete_btn{
   background-color: transparent;
   cursor: pointer;

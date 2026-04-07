@@ -162,7 +162,7 @@ function Sidebar({
           <div className="sidebar__thoughts-title">Saved Thoughts</div>
           {thoughts.map((t, i) => (
             <div key={i} className="sidebar__thought-item">
-              {t}
+              <div className="sidebar__thought-text">{t}</div>
               <div>
               <button className = "delete_btn" onClick={() => onDeleteThoughtClick(t)}>🗑️</button>
               </div>
