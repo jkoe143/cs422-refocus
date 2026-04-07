@@ -36,14 +36,14 @@
 
 .distraction-alert__subtitle {
   margin-bottom: 8px;
-  color: #aaa;
+  color: #fff;
   font-size: 13px;
   text-align: center;
 }
 
 .distraction-alert__tab-notice {
   margin-bottom: 16px;
-  color: #888;
+  color: #fff;
   font-size: 12px;
   text-align: center;
 }
@@ -85,11 +85,11 @@
 }
 
 .distraction-alert__button--secondary {
-  border: 1px solid #444;
+  border: none;
   background-color: #ba9718;
   color: #fff;
-  font-size: 13px;
-  font-weight: normal;
+  /* font-size: 13px;
+  font-weight: normal; */
 }
 
 .distraction-alert__button--secondary:hover {
