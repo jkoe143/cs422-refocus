@@ -202,6 +202,7 @@ function App() {
           remainingSeconds={focusSeconds}
           usedSeconds={usedFocusSeconds}
           thoughts={thoughts}
+          setThoughts={setThoughts}
           onNudgeClick={handleNudgeClick}
           onClearYourHeadClick={handleClearYourHeadClick}
           onEmergencyQuit={handleEmergencyQuit}

@@ -170,4 +170,11 @@
   color: #ccc;
   font-size: 12px;
   line-height: 1.4;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.delete_btn{
+  background-color: transparent;
+  cursor: pointer;
 }

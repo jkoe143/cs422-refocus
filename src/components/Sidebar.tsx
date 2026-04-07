@@ -8,6 +8,7 @@ interface SidebarProps {
   remainingSeconds: number;
   usedSeconds: number;
   thoughts: string[];
+  setThoughts: React.Dispatch<React.SetStateAction<string[]>>;
   onNudgeClick: () => void;
   onClearYourHeadClick: () => void;
   onEmergencyQuit: () => void;
@@ -21,6 +22,7 @@ function Sidebar({
   remainingSeconds,
   usedSeconds,
   thoughts,
+  setThoughts,
   onNudgeClick,
   onClearYourHeadClick,
   onEmergencyQuit,
@@ -36,6 +38,11 @@ function Sidebar({
     .toString()
     .padStart(2, "0");
   const seconds = (timerSeconds % 60).toString().padStart(2, "0");
+
+  const onDeleteThoughtClick = (thought: string) => {
+    const updatedThoughts =thoughts.filter(item => item !== thought);
+    setThoughts(updatedThoughts);
+  }
 
   return (
     <div className="sidebar">
@@ -71,7 +78,6 @@ function Sidebar({
             width="100%"
             height="80"
             src="https://www.youtube.com/embed/RG2IK8oRZNA?autoplay=1&controls=1"
-            allow="autoplay"
           />
         </div>
       )}
@@ -157,6 +163,9 @@ function Sidebar({
           {thoughts.map((t, i) => (
             <div key={i} className="sidebar__thought-item">
               {t}
+              <div>
+              <button className = "delete_btn" onClick={() => onDeleteThoughtClick(t)}>🗑️</button>
+              </div>
             </div>
           ))}
         </div>
