@@ -152,11 +152,14 @@
   border: 1px solid #444;
   border-radius: 10px;
   background-color: #2a2a2a;
+  max-height: 200px;
+  overflow-y: auto;
 }
 
 .sidebar__thoughts-title {
   margin-bottom: 8px;
-  color: #888;
+  color: #fff;
+  text-align: center;
   font-size: 10px;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -180,6 +183,12 @@
   word-break: break-word;
 }
 .delete_btn{
-  background-color: transparent;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
   cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
 }

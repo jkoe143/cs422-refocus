@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./Sidebar.css";
+import YouTube from "react-youtube";
 
 interface SidebarProps {
   currentTask: string;
@@ -31,6 +32,11 @@ function Sidebar({
   onResumeFocus,
 }: SidebarProps) {
   const [showQuitConfirm, setShowQuitConfirm] = useState(false);
+
+  const [player, setPlayer] = useState<any>(null);
+  const [volume, setVolume] = useState(50);
+  const [isPlaying, setIsPlaying] = useState(true);
+
   const isRunning = appState === "focus";
   const isPaused = appState === "paused";
   const isSubmitted = appState === "submitted";
@@ -47,6 +53,15 @@ function Sidebar({
   const onDeleteThoughtClick = (thought: string) => {
     const updatedThoughts = thoughts.filter((item) => item !== thought);
     setThoughts(updatedThoughts);
+  };
+
+  const handleTogglePlay = () => {
+    if (!player) return;
+    if (isPlaying) {
+      player.pauseVideo();
+    } else {
+      player.playVideo();
+    }
   };
 
   return (
@@ -81,13 +96,62 @@ function Sidebar({
         >
           <div className="sidebar__label">Now Playing</div>
           <div className="sidebar__track">Lo-Fi Study Beats</div>
-          <iframe
-            className="sidebar__iframe"
-            width="100%"
-            height="80"
-            src="https://www.youtube.com/embed/RG2IK8oRZNA?autoplay=1&controls=1"
-            allow="autoplay"
-          />
+          <div style={{ borderRadius: "1px", overflow: "hidden", marginBottom: "1px" }}>
+            <YouTube
+              videoId="RG2IK8oRZNA"
+              opts={{
+                height: "100",
+                width: "100%",
+                playerVars: {
+                  autoplay: 1,
+                  controls: 1, // Turned it on so demonstrate how the volume is hard to control
+                  disablekb: 1, 
+                  modestbranding: 1,
+                },
+              }}
+              onReady={(e) => {
+                setPlayer(e.target);
+                e.target.setVolume(volume);
+              }}
+              onStateChange={(e) => {
+                if (e.data === 1) setIsPlaying(true);
+                if (e.data === 2) setIsPlaying(false);
+              }}
+            />
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px", padding: "0 4px" }}>
+            <button
+              onClick={handleTogglePlay}
+              style={{
+                backgroundColor: "#2a2a2a",
+                color: "#fff",
+                border: "1px solid #2a2a2a",
+                borderRadius: "0px",
+                padding: "6px 6px",
+                cursor: "pointer",
+                fontSize: "10px",
+                fontWeight: "bold",
+                width: "60px",
+                height: "40px",
+                display: "flex",
+              }}
+            >
+              {isPlaying ? <>⏸ <br /> Pause</> : <>▶ <br /> Play</>}
+            </button>
+            
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={volume}
+              onChange={(e) => {
+                const newVol = Number(e.target.value);
+                setVolume(newVol);
+                if (player) player.setVolume(newVol);
+              }}
+              style={{ flex: 1, cursor: "pointer" }}
+            />
+          </div>
         </div>
       )}
 
