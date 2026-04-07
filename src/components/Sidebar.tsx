@@ -40,9 +40,9 @@ function Sidebar({
   const seconds = (timerSeconds % 60).toString().padStart(2, "0");
 
   const onDeleteThoughtClick = (thought: string) => {
-    const updatedThoughts =thoughts.filter(item => item !== thought);
+    const updatedThoughts = thoughts.filter((item) => item !== thought);
     setThoughts(updatedThoughts);
-  }
+  };
 
   return (
     <div className="sidebar">
@@ -70,7 +70,10 @@ function Sidebar({
       </div>
 
       {isRunning && (
-        <div className="sidebar__card">
+        <div
+          className="sidebar__card"
+          style={{ display: isRunning ? "block" : "none" }}
+        >
           <div className="sidebar__label">Now Playing</div>
           <div className="sidebar__track">Lo-Fi Study Beats</div>
           <iframe
@@ -78,6 +81,7 @@ function Sidebar({
             width="100%"
             height="80"
             src="https://www.youtube.com/embed/RG2IK8oRZNA?autoplay=1&controls=1"
+            allow="autoplay"
           />
         </div>
       )}
@@ -164,7 +168,12 @@ function Sidebar({
             <div key={i} className="sidebar__thought-item">
               <div className="sidebar__thought-text">{t}</div>
               <div>
-              <button className = "delete_btn" onClick={() => onDeleteThoughtClick(t)}>🗑️</button>
+                <button
+                  className="delete_btn"
+                  onClick={() => onDeleteThoughtClick(t)}
+                >
+                  🗑️
+                </button>
               </div>
             </div>
           ))}
