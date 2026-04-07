@@ -21,16 +21,22 @@ type AppState =
 
 function App() {
   const FOCUS_DURATION_SECONDS = 25 * 60;
+  const BREAK_DURATION_SECONDS = 5 * 60; 
+  
   const [appState, setAppState] = useState<AppState>("idle");
   const [activeTab, setActiveTab] = useState<"essay" | "youtube">("youtube");
   const [focusSeconds, setFocusSeconds] = useState(FOCUS_DURATION_SECONDS);
+  const [breakSeconds, setBreakSeconds] = useState(BREAK_DURATION_SECONDS);
+
   const usedFocusSeconds = Math.max(FOCUS_DURATION_SECONDS - focusSeconds, 0);
 
   const [thoughts, setThoughts] = useState<string[]>([]);
   const [showNudge, setShowNudge] = useState(false);
   const [showClearYourHead, setShowClearYourHead] = useState(false);
   const [showRefocusSuggestion, setShowRefocusSuggestion] = useState(false);
+
   const intervalRef = useRef<number | null>(null);
+  const breakIntervalRef = useRef<number | null>(null);
 
   const startTimer = () => {
     if (intervalRef.current) clearInterval(intervalRef.current);
@@ -49,6 +55,29 @@ function App() {
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
+    }
+  };
+
+  // Break timer
+  const startBreakTimer = () => {
+    if (breakIntervalRef.current) clearInterval(breakIntervalRef.current);
+    breakIntervalRef.current = window.setInterval(() => {
+      setBreakSeconds((prev) => {
+        if (prev <= 1) {
+          clearInterval(breakIntervalRef.current!);
+          // Break is over! Trigger the distraction alert to nudge them back
+          setAppState("distraction"); 
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  };
+
+  const stopBreakTimer = () => {
+    if (breakIntervalRef.current) {
+      clearInterval(breakIntervalRef.current);
+      breakIntervalRef.current = null;
     }
   };
 
@@ -92,9 +121,12 @@ function App() {
   const handleTakeBreak = () => {
     setAppState("paused");
     setActiveTab("youtube");
+    setBreakSeconds(BREAK_DURATION_SECONDS);
+    startBreakTimer();
   };
 
   const handleResumeFocus = () => {
+    stopBreakTimer();
     setAppState("focus");
     setActiveTab("essay");
     startTimer();
@@ -118,6 +150,7 @@ function App() {
 
   const handleEmergencyQuit = () => {
     stopTimer();
+    stopBreakTimer();
     setAppState("idle");
     setActiveTab("youtube");
     setShowNudge(false);
@@ -205,6 +238,7 @@ function App() {
           deadline="11:00 PM"
           appState={appState}
           remainingSeconds={focusSeconds}
+          breakSeconds={breakSeconds}
           usedSeconds={usedFocusSeconds}
           thoughts={thoughts}
           setThoughts={setThoughts}

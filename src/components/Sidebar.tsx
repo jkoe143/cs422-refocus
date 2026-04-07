@@ -6,6 +6,7 @@ interface SidebarProps {
   deadline: string;
   appState: string;
   remainingSeconds: number;
+  breakSeconds: number;
   usedSeconds: number;
   thoughts: string[];
   setThoughts: React.Dispatch<React.SetStateAction<string[]>>;
@@ -20,6 +21,7 @@ function Sidebar({
   deadline,
   appState,
   remainingSeconds,
+  breakSeconds,
   usedSeconds,
   thoughts,
   setThoughts,
@@ -33,10 +35,13 @@ function Sidebar({
   const isPaused = appState === "paused";
   const isSubmitted = appState === "submitted";
 
-  const timerSeconds = isSubmitted ? usedSeconds : remainingSeconds;
+  // const timerSeconds = isSubmitted ? usedSeconds : remainingSeconds; // Original
+  const timerSeconds = isPaused ? breakSeconds : (isSubmitted ? usedSeconds : remainingSeconds);    // With break seconds
+  
   const minutes = Math.floor(timerSeconds / 60)
     .toString()
     .padStart(2, "0");
+  
   const seconds = (timerSeconds % 60).toString().padStart(2, "0");
 
   const onDeleteThoughtClick = (thought: string) => {
@@ -58,7 +63,7 @@ function Sidebar({
         className={`sidebar__card ${isRunning || isPaused ? "sidebar__card--running" : ""}`}
       >
         <div className="sidebar__label">
-          {isSubmitted ? "You Used" : "Focus Timer"}
+          {isSubmitted ? "You Used" : isPaused ? "Break Timer" : "Focus Timer"}
         </div>
         <div
           className={`sidebar__timer ${isRunning ? "sidebar__timer--running" : ""}`}
