@@ -21,8 +21,8 @@ type AppState =
 
 function App() {
   const FOCUS_DURATION_SECONDS = 25 * 60;
-  const BREAK_DURATION_SECONDS = 5 * 60; 
-  
+  const BREAK_DURATION_SECONDS = 5 * 60;
+
   const [appState, setAppState] = useState<AppState>("idle");
   const [activeTab, setActiveTab] = useState<"essay" | "youtube">("youtube");
   const [focusSeconds, setFocusSeconds] = useState(FOCUS_DURATION_SECONDS);
@@ -66,7 +66,7 @@ function App() {
         if (prev <= 1) {
           clearInterval(breakIntervalRef.current!);
           // Break is over! Trigger the distraction alert to nudge them back
-          setAppState("distraction"); 
+          setAppState("distraction");
           return 0;
         }
         return prev - 1;
@@ -110,7 +110,7 @@ function App() {
     }
     setActiveTab(tab);
   };
-  
+
   const handleRefocus = () => {
     setAppState("focus");
     setActiveTab("essay");
@@ -144,13 +144,15 @@ function App() {
     }
     setShowClearYourHead(false);
     if (appState == "focus") {
-        startTimer();
+      startTimer();
     }
   };
 
   const handleEmergencyQuit = () => {
     stopTimer();
     stopBreakTimer();
+    setFocusSeconds(FOCUS_DURATION_SECONDS);
+    setBreakSeconds(BREAK_DURATION_SECONDS);
     setAppState("idle");
     setActiveTab("youtube");
     setShowNudge(false);
