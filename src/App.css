@@ -6,11 +6,11 @@
 }
 
 .app-shell--distraction {
-  border: 5px solid #ef5350;
+  border: 3px solid #ef5350;
 }
 
 .app-shell--focus {
-  border: 5px solid #4caf50;
+  border: 3px solid #4caf50;
 }
 
 .app-shell__content {
