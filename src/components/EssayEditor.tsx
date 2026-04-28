@@ -14,6 +14,14 @@ function EssayEditor({
     `F. Scott Fitzgerald's The Great Gatsby employs rich symbolism to explore themes of the American Dream and moral decay in 1920s America. The green light at the end of Daisy's dock represents Gatsby's longing for an idealized past that can never be recaptured.\n\n`,
   );
   const wordCount = content.trim().split(/\s+/).filter(Boolean).length;
+  const [saved, setSaved] = useState(false);
+  const [activeFormats, setActiveFormats] = useState<string[]>([]);
+
+  const toggleFormat = (fmt: string) => {
+    setActiveFormats((prev) =>
+      prev.includes(fmt) ? prev.filter((f) => f !== fmt) : [...prev, fmt],
+    );
+  };
 
   return (
     <div className="essay-editor">
@@ -44,9 +52,10 @@ function EssayEditor({
             {["B", "I", "U"].map((fmt) => (
               <button
                 key={fmt}
+                onClick={() => toggleFormat(fmt)}
                 className={`essay-editor__format essay-editor__format--${
                   fmt === "B" ? "bold" : fmt === "I" ? "italic" : "underline"
-                }`}
+                } ${activeFormats.includes(fmt) ? "essay-editor__format--active" : ""}`}
               >
                 {fmt}
               </button>
@@ -73,7 +82,15 @@ function EssayEditor({
         </div>
 
         <div className="essay-editor__actions">
-          <button className="essay-editor__save">Save Draft</button>
+          <button
+            className="essay-editor__save"
+            onClick={() => {
+              setSaved(true);
+              setTimeout(() => setSaved(false), 2000);
+            }}
+          >
+            {saved ? "✓ Draft Saved!" : "Save Draft"}
+          </button>
         </div>
       </div>
     </div>

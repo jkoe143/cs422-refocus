@@ -182,6 +182,12 @@
   transition: all 0.2s ease;
 }
 
+.essay-editor__format--active {
+  background-color: #444;
+  color: #fff;
+  border-color: #666;
+}
+
 .essay-editor__save:hover {
   background-color: #333;
   color: #fff;

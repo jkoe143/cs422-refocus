@@ -9,6 +9,11 @@ function NudgePanel({ onStart, onLater }: NudgePanelProps) {
   const now = new Date();
   const deadline = new Date();
   deadline.setHours(23, 0, 0, 0);
+
+  if (deadline.getTime() < now.getTime()) {
+    deadline.setDate(deadline.getDate() + 1);
+  }
+
   const diffMs = deadline.getTime() - now.getTime();
   const diffHrs = Math.floor(diffMs / (1000 * 60 * 60));
   const diffMins = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));

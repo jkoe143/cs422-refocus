@@ -32,7 +32,6 @@ function Sidebar({
   onResumeFocus,
 }: SidebarProps) {
   const [showQuitConfirm, setShowQuitConfirm] = useState(false);
-
   const [player, setPlayer] = useState<any>(null);
   const [volume, setVolume] = useState(50);
   const [isPlaying, setIsPlaying] = useState(true);
@@ -41,13 +40,16 @@ function Sidebar({
   const isPaused = appState === "paused";
   const isSubmitted = appState === "submitted";
 
-  // const timerSeconds = isSubmitted ? usedSeconds : remainingSeconds; // Original
-  const timerSeconds = isPaused ? breakSeconds : (isSubmitted ? usedSeconds : remainingSeconds);    // With break seconds
-  
+  const timerSeconds = isPaused
+    ? breakSeconds
+    : isSubmitted
+      ? usedSeconds
+      : remainingSeconds;
+
   const minutes = Math.floor(timerSeconds / 60)
     .toString()
     .padStart(2, "0");
-  
+
   const seconds = (timerSeconds % 60).toString().padStart(2, "0");
 
   const onDeleteThoughtClick = (thought: string) => {
@@ -90,13 +92,17 @@ function Sidebar({
       </div>
 
       {isRunning && (
-        <div
-          className="sidebar__card"
-          style={{ display: isRunning ? "block" : "none" }}
-        >
+        <div className="sidebar__card">
           <div className="sidebar__label">Now Playing</div>
           <div className="sidebar__track">Lo-Fi Study Beats</div>
-          <div style={{ borderRadius: "1px", overflow: "hidden", marginBottom: "1px" }}>
+          <div
+            style={{
+              position: "relative",
+              borderRadius: "1px",
+              overflow: "hidden",
+              marginBottom: "1px",
+            }}
+          >
             <YouTube
               videoId="RG2IK8oRZNA"
               opts={{
@@ -104,9 +110,11 @@ function Sidebar({
                 width: "100%",
                 playerVars: {
                   autoplay: 1,
-                  controls: 1, // Turned it on so demonstrate how the volume is hard to control
-                  disablekb: 1, 
+                  controls: 0,
+                  disablekb: 1,
                   modestbranding: 1,
+                  fs: 0,
+                  iv_load_policy: 3,
                 },
               }}
               onReady={(e) => {
@@ -118,8 +126,25 @@ function Sidebar({
                 if (e.data === 2) setIsPlaying(false);
               }}
             />
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                zIndex: 1,
+              }}
+            />
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: "10px", padding: "0 4px" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+              padding: "0 4px",
+            }}
+          >
             <button
               onClick={handleTogglePlay}
               style={{
@@ -136,9 +161,17 @@ function Sidebar({
                 display: "flex",
               }}
             >
-              {isPlaying ? <>⏸ <br /> Pause</> : <>▶ <br /> Play</>}
+              {isPlaying ? (
+                <>
+                  ⏸ <br /> Pause
+                </>
+              ) : (
+                <>
+                  ▶ <br /> Play
+                </>
+              )}
             </button>
-            
+
             <input
               type="range"
               min="0"
