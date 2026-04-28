@@ -9,7 +9,7 @@ function DistractionAlert({ onRefocus, onBreak }: DistractionAlertProps) {
   return (
     <div className="distraction-alert">
       <div className="distraction-alert__icon">☕</div>
-      <div className="distraction-alert__title">Quick check-in</div>
+      <div className="distraction-alert__title">Quick Check-in</div>
       <div className="distraction-alert__subtitle">
         It looks like your attention got distracted for a moment.
       </div>
