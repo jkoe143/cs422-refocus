@@ -10,7 +10,7 @@ function ClearYourHead({ onSave }: ClearYourHeadProps) {
 
   return (
     <div className="clear-your-head">
-      <div className="clear-your-head__icon">🧠/div>
+      <div className="clear-your-head__icon">🧠</div>
       <div className="clear-your-head__title">Clear Your Mind</div>
       <div className="clear-your-head__subtitle">
         Just write down whatever is on your mind so you can come back later.
