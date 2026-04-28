@@ -21,16 +21,16 @@ function NudgePanel({ onStart, onLater }: NudgePanelProps) {
   return (
     <div className="nudge-panel">
       <div className="nudge-panel__icon">⏰</div>
-      <div className="nudge-panel__title">Heads Up!</div>
+      <div className="nudge-panel__title">Let's get started!</div>
       <div className="nudge-panel__subtitle">
         Your English Essay is due in{" "}
         <span className="nudge-panel__deadline">
           {diffHrs}h {diffMins}m
         </span>{" "}
-        and you haven't started yet!
+        and you can still make a calm start.
       </div>
       <div className="nudge-panel__callout">
-        💡 Try starting with a simple outline
+        💡 Start with a rough outline or just your first sentence
       </div>
       <div className="nudge-panel__actions">
         <button
@@ -43,7 +43,7 @@ function NudgePanel({ onStart, onLater }: NudgePanelProps) {
           onClick={onLater}
           className="nudge-panel__button nudge-panel__button--secondary"
         >
-          Later
+          Not yet
         </button>
       </div>
     </div>

@@ -235,20 +235,42 @@ function App() {
           )}
         </div>
 
-        <Sidebar
-          currentTask="English Essay"
-          deadline="11:00 PM"
-          appState={appState}
-          remainingSeconds={focusSeconds}
-          breakSeconds={breakSeconds}
-          usedSeconds={usedFocusSeconds}
-          thoughts={thoughts}
-          setThoughts={setThoughts}
-          onNudgeClick={handleNudgeClick}
-          onClearYourHeadClick={handleClearYourHeadClick}
-          onEmergencyQuit={handleEmergencyQuit}
-          onResumeFocus={handleResumeFocus}
-        />
+        {appState === "focus" ? (
+          <div className="app-shell__sidebarDock" aria-label="Sidebar">
+            <div className="app-shell__sidebarDockHandle" />
+            <div className="app-shell__sidebarDockPanel">
+              <Sidebar
+                currentTask="English Essay"
+                deadline="11:00 PM"
+                appState={appState}
+                remainingSeconds={focusSeconds}
+                breakSeconds={breakSeconds}
+                usedSeconds={usedFocusSeconds}
+                thoughts={thoughts}
+                setThoughts={setThoughts}
+                onNudgeClick={handleNudgeClick}
+                onClearYourHeadClick={handleClearYourHeadClick}
+                onEmergencyQuit={handleEmergencyQuit}
+                onResumeFocus={handleResumeFocus}
+              />
+            </div>
+          </div>
+        ) : (
+          <Sidebar
+            currentTask="English Essay"
+            deadline="11:00 PM"
+            appState={appState}
+            remainingSeconds={focusSeconds}
+            breakSeconds={breakSeconds}
+            usedSeconds={usedFocusSeconds}
+            thoughts={thoughts}
+            setThoughts={setThoughts}
+            onNudgeClick={handleNudgeClick}
+            onClearYourHeadClick={handleClearYourHeadClick}
+            onEmergencyQuit={handleEmergencyQuit}
+            onResumeFocus={handleResumeFocus}
+          />
+        )}
       </div>
     </div>
   );

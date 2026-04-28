@@ -8,29 +8,29 @@ interface DistractionAlertProps {
 function DistractionAlert({ onRefocus, onBreak }: DistractionAlertProps) {
   return (
     <div className="distraction-alert">
-      <div className="distraction-alert__icon">🚨</div>
-      <div className="distraction-alert__title">Distraction Alert</div>
+      <div className="distraction-alert__icon">☕</div>
+      <div className="distraction-alert__title">Quick check-in</div>
       <div className="distraction-alert__subtitle">
-        Still working on your English Essay?
+        It looks like your attention got distracted for a moment.
       </div>
       <div className="distraction-alert__tab-notice">
-        📋 Tab switch detected — non-essay tab opened
+        That happens. Want to come back to the essay or take a short break?
       </div>
       <div className="distraction-alert__callout">
-        ⚠️ Deadline is approaching!
+        You are still on track. Pick the next step that feels right.
       </div>
       <div className="distraction-alert__actions">
         <button
           onClick={onRefocus}
           className="distraction-alert__button distraction-alert__button--primary"
         >
-          Yes, Refocus
+          Return to Essay
         </button>
         <button
           onClick={onBreak}
           className="distraction-alert__button distraction-alert__button--secondary"
         >
-          Taking a Break
+          Take a Short Break
         </button>
       </div>
     </div>

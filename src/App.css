@@ -16,6 +16,7 @@
 .app-shell__content {
   display: flex;
   flex: 1;
+  position: relative;
 }
 
 .app-shell__workspace {
@@ -24,59 +25,130 @@
   position: relative;
 }
 
+.app-shell__sidebarDock {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 30;
+  width: 296px;
+  height: 100vh;
+  display: flex;
+  justify-content: flex-end;
+  transform: translateX(calc(100% - 16px));
+  transition: transform 0.25s ease;
+}
+
+.app-shell__sidebarDock:hover {
+  transform: translateX(0);
+}
+
+.app-shell__sidebarDockHandle {
+  width: 16px;
+  height: 120px;
+  margin-top: 50vh;
+  transform: translateY(-50%);
+  border-radius: 12px 0 0 12px;
+  background: linear-gradient(180deg, #4caf50 0%, #2a2a2a 100%);
+  box-shadow: 0 0 18px rgba(76, 175, 80, 0.35);
+  flex: 0 0 16px;
+}
+
+.app-shell__sidebarDockPanel {
+  width: 280px;
+  height: 100%;
+}
+
+.app-shell__sidebarDockPanel .sidebar {
+  height: 100%;
+  min-height: 100%;
+}
+
 .submission-state {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100%;
-  padding: 40px;
+  padding: 28px;
 }
 
 .submission-state__card {
   width: 100%;
-  max-width: 500px;
-  padding: 48px;
-  border: 1px solid #4caf50;
-  border-radius: 16px;
-  background-color: #1e1e1e;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  max-width: 460px;
+  padding: 36px 34px;
+  border: 1px solid rgba(76, 175, 80, 0.4);
+  border-radius: 20px;
+  background: linear-gradient(
+    180deg,
+    rgba(42, 42, 42, 0.98) 0%,
+    rgba(30, 30, 30, 0.98) 100%
+  );
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.45);
   text-align: center;
 }
 
 .submission-state__check {
-  margin-bottom: 16px;
-  font-size: 56px;
+  margin-bottom: 14px;
+  font-size: 44px;
 }
 
 .submission-state__title {
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   color: #4caf50;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: bold;
 }
 
 .submission-state__meta {
-  margin-bottom: 20px;
-  color: #888;
+  margin-bottom: 18px;
+  color: #a0a0a0;
   font-size: 13px;
+  line-height: 1.5;
 }
 
 .submission-state__message {
-  margin-bottom: 20px;
-  padding: 12px;
-  border-radius: 10px;
-  background-color: #2a2a2a;
-  color: #4caf50;
+  margin-bottom: 22px;
+  padding: 14px;
+  border-radius: 12px;
+  background-color: rgba(76, 175, 80, 0.08);
+  border: 1px solid rgba(76, 175, 80, 0.22);
+  color: #dff3e1;
   font-size: 13px;
+  line-height: 1.5;
 }
 
 .submission-state__button {
-  padding: 12px 28px;
+  padding: 13px 28px;
   border: none;
-  border-radius: 10px;
+  border-radius: 14px;
   background-color: #4caf50;
   color: #fff;
   cursor: pointer;
   font-size: 14px;
   font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.submission-state__button:hover {
+  background-color: #45a049;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(76, 175, 80, 0.18);
+}
+
+@media (max-width: 720px) {
+  .submission-state {
+    padding: 18px;
+  }
+
+  .submission-state__card {
+    padding: 28px 22px;
+    border-radius: 18px;
+  }
+
+  .submission-state__check {
+    font-size: 38px;
+  }
+
+  .submission-state__title {
+    font-size: 18px;
+  }
 }
