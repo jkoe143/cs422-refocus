@@ -201,7 +201,7 @@ function Sidebar({
         className="sidebar__button sidebar__button--nudge"
         onClick={onNudgeClick}
       >
-        🔔 Nudge
+        ⏳ Start Focus
       </button>
 
       <button
